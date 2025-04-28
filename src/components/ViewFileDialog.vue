@@ -78,17 +78,20 @@
 
 <script setup lang="ts">
 import { MdPreview } from 'md-editor-v3'
-import { exportFile, useDialogPluginComponent } from 'quasar'
+import { useDialogPluginComponent, useQuasar } from 'quasar'
 import { wrapCode, wrapQuote } from 'src/utils/functions'
 import { StoredItem } from 'src/utils/types'
 import { codeExtensions } from 'src/utils/values'
 import { computed } from 'vue'
 import CopyBtn from './CopyBtn.vue'
 import { useMdPreviewProps } from 'src/composables/md-preview-props'
+import { saveFile } from 'src/utils/file-saver'
 
 const props = defineProps<{
   file: StoredItem
 }>()
+
+const $q = useQuasar()
 
 defineEmits([
   ...useDialogPluginComponent.emits
@@ -113,8 +116,30 @@ const markdown = computed(() => {
     : (file.contentText)
 })
 
-function download() {
-  exportFile(props.file.name, props.file.contentBuffer)
+async function download() {
+  try {
+    const result = await saveFile(props.file.name, props.file.contentBuffer, props.file.mimeType)
+    if (result.success) {
+      if (result.path) {
+        $q.notify({
+          message: `文件已保存到: ${result.path}`,
+          color: 'positive'
+        })
+      }
+    } else {
+      console.error('保存文件失败:', result.error)
+      $q.notify({
+        message: `保存文件失败: ${result.error}`,
+        color: 'negative'
+      })
+    }
+  } catch (error) {
+    console.error('保存文件过程出错:', error)
+    $q.notify({
+      message: '保存文件过程出错',
+      color: 'negative'
+    })
+  }
 }
 
 const mdPreviewProps = useMdPreviewProps()

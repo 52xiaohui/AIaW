@@ -471,7 +471,7 @@ import PromptVarEditor from 'src/components/PromptVarEditor.vue'
 import { Assistant } from 'src/utils/types'
 import ViewCommonHeader from 'src/components/ViewCommonHeader.vue'
 import AAvatar from 'src/components/AAvatar.vue'
-import { copyToClipboard, exportFile, useQuasar } from 'quasar'
+import { copyToClipboard, useQuasar } from 'quasar'
 import PickAvatarDialog from 'src/components/PickAvatarDialog.vue'
 import ModelInputItems from 'src/components/ModelInputItems.vue'
 import ErrorNotFound from 'src/pages/ErrorNotFound.vue'
@@ -481,6 +481,8 @@ import { blobToBase64, pageFhStyle } from 'src/utils/functions'
 import { useSetTitle } from 'src/composables/set-title'
 import { db } from 'src/utils/db'
 import EnablePluginsItems from 'src/components/EnablePluginsItems.vue'
+import { saveFile } from 'src/utils/file-saver'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   id: string
@@ -496,6 +498,7 @@ const assistant = syncRef<Assistant>(
 )
 
 const $q = useQuasar()
+
 function pickAvatar() {
   $q.dialog({
     component: PickAvatarDialog,
@@ -523,9 +526,35 @@ async function exportAssistant(target: 'file' | 'clipboard') {
   const { name, prompt, promptVars, promptTemplate, model, modelSettings, author, homepage, description } = assistant.value
   const json = JSON.stringify({ name, avatar, prompt, promptVars, promptTemplate, model, modelSettings, author, homepage, description })
   if (target === 'file') {
-    exportFile(`${name}.json`, json)
+    try {
+      const result = await saveFile(`${name}.json`, json)
+      if (result.success) {
+        if (result.path) {
+          $q.notify({
+            message: `助手配置已保存到: ${result.path}`,
+            color: 'positive'
+          })
+        }
+      } else {
+        console.error('保存助手配置失败:', result.error)
+        $q.notify({
+          message: `保存失败: ${result.error}`,
+          color: 'negative'
+        })
+      }
+    } catch (error) {
+      console.error('保存助手配置过程出错:', error)
+      $q.notify({
+        message: '保存过程出错',
+        color: 'negative'
+      })
+    }
   } else {
     copyToClipboard(json)
+    $q.notify({
+      message: '已复制到剪贴板',
+      color: 'positive'
+    })
   }
 }
 </script>

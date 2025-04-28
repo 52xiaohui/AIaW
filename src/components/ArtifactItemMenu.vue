@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { exportFile, useQuasar } from 'quasar'
+import { useQuasar } from 'quasar'
 import { dialogOptions } from 'src/utils/values'
 import MenuItem from './MenuItem.vue'
 import SelectWorkspaceDialog from './SelectWorkspaceDialog.vue'
@@ -44,6 +44,7 @@ import { Artifact } from 'src/utils/types'
 import { db } from 'src/utils/db'
 import { artifactUnsaved, saveArtifactChanges } from 'src/utils/functions'
 import { useI18n } from 'vue-i18n'
+import { saveFile } from 'src/utils/file-saver'
 
 const $q = useQuasar()
 const { t } = useI18n()
@@ -77,8 +78,32 @@ function moveItem({ id }) {
     db.artifacts.update(id, { workspaceId })
   })
 }
-function downloadItem({ name, versions, currIndex }) {
-  exportFile(name, versions[currIndex].text)
+async function downloadItem({ name, versions, currIndex }) {
+  try {
+    const content = versions[currIndex].text
+    const result = await saveFile(name, content)
+    
+    if (result.success) {
+      if (result.path) {
+        $q.notify({
+          message: `文件已保存到: ${result.path}`,
+          color: 'positive'
+        })
+      }
+    } else {
+      console.error('保存文件失败:', result.error)
+      $q.notify({
+        message: `保存文件失败: ${result.error}`,
+        color: 'negative'
+      })
+    }
+  } catch (error) {
+    console.error('保存文件过程出错:', error)
+    $q.notify({
+      message: '保存文件过程出错',
+      color: 'negative'
+    })
+  }
 }
 function deleteItem({ id, name }) {
   $q.dialog({

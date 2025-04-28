@@ -502,7 +502,7 @@
 </template>
 
 <script setup lang="ts">
-import { exportFile, useQuasar } from 'quasar'
+import { useQuasar } from 'quasar'
 import { useUserPerfsStore } from 'src/stores/user-perfs'
 import HctPreviewCircle from 'src/components/HctPreviewCircle.vue'
 import HueSliderDialog from 'src/components/HueSliderDialog.vue'
@@ -529,6 +529,7 @@ import GetModelList from 'src/components/GetModelList.vue'
 import ViewCommonHeader from 'src/components/ViewCommonHeader.vue'
 import ModelDragSortDialog from 'src/components/ModelDragSortDialog.vue'
 import { useGetModel } from 'src/composables/get-model'
+import { saveFile } from 'src/utils/file-saver'
 
 defineEmits(['toggle-drawer'])
 
@@ -571,16 +572,33 @@ const user = DexieDBURL ? useObservable(db.cloud.currentUser) : null
 const { getProvider } = useGetModel()
 const provider = computed(() => getProvider())
 
-function exportData() {
-  exportDB(db).then(blob => {
-    exportFile('aiaw_user_db.json', blob)
-  }).catch(err => {
+async function exportData() {
+  try {
+    const blob = await exportDB(db)
+    const result = await saveFile('aiaw_user_db.json', blob)
+    if (result.success) {
+      if (result.path) {
+        $q.notify({
+          message: `用户数据已保存到: ${result.path}`,
+          color: 'positive'
+        })
+      }
+    } else {
+      console.error('保存用户数据失败:', result.error)
+      $q.notify({
+        message: result.error === '没有存储权限' 
+          ? '请授予应用存储权限以保存数据'
+          : t('settingsView.exportFailed') + (result.error ? `: ${result.error}` : ''),
+        color: 'negative'
+      })
+    }
+  } catch (err) {
     console.error(err)
     $q.notify({
       message: t('settingsView.exportFailed'),
       color: 'negative'
     })
-  })
+  }
 }
 function importData() {
   $q.dialog({
