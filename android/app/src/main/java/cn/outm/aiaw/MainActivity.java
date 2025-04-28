@@ -1,4 +1,4 @@
-package app.aiaw;
+package cn.outm.aiaw;
 
 import com.getcapacitor.BridgeActivity;
 

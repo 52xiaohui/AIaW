@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "app.aiaw"
+    namespace "cn.outm.aiaw"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "app.aiaw"
+        applicationId "cn.outm.aiaw"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 10601
