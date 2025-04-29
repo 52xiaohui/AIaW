@@ -142,7 +142,8 @@ export default {
       configModel: 'Please configure a provider, model, or log in',
       loadPluginList: 'Failed to load plugin list',
       genTitle: 'Failed to summarize conversation, please check system assistant settings',
-      insufficientQuota: 'Insufficient model service quota'
+      insufficientQuota: 'Insufficient model service quota',
+      cameraError: 'Failed to access camera or take picture.'
     },
     enabledPlugins: 'Enabled Plugins',
     messageTokens: 'Last Message Token Consumption',
@@ -162,7 +163,8 @@ export default {
     callPluginInfoFailed: 'Failed to call plugin information: {message}',
     pluginPromptParseFailed: 'Plugin "{title}" prompt template parsing failed',
     promptParseFailed: 'Prompt parsing failed, please check assistant prompt template',
-    plugins: 'Plugins'
+    plugins: 'Plugins',
+    takePicture: 'Take Picture'
   },
   settingsView: {
     title: 'Settings',

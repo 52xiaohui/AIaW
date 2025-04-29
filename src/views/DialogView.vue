@@ -258,6 +258,16 @@
             >
           </q-btn>
           <q-btn
+            v-if="$q.platform.is.android && model && mimeTypeMatch('image/webp', model.inputTypes.user)"
+            flat
+            icon="sym_o_photo_camera"
+            :title="$t('dialogView.takePicture')"
+            round
+            min-w="2.7em"
+            min-h="2.7em"
+            @click="takePicture"
+          />
+          <q-btn
             flat
             icon="sym_o_folder"
             :title="$t('dialogView.addFile')"
@@ -435,6 +445,7 @@ import Mark from 'mark.js'
 import { useCreateDialog } from 'src/composables/create-dialog'
 import EnablePluginsMenu from 'src/components/EnablePluginsMenu.vue'
 import { useGetModel } from 'src/composables/get-model'
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
 const { t, locale } = useI18n()
 
 const props = defineProps<{
@@ -628,6 +639,32 @@ function onInputFiles({ target }) {
   const files = target.files
   parseFiles(Array.from(files))
   target.value = ''
+}
+async function takePicture() {
+  try {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera
+    })
+
+    if (image.webPath) {
+      // Fetch the blob from the webPath (URI)
+      const response = await fetch(image.webPath)
+      const blob = await response.blob()
+      // Create a File object
+      const fileName = `photo_${Date.now()}.${image.format}`
+      const file = new File([blob], fileName, { type: `image/${image.format}` })
+      // Process the file using the existing parseFiles function
+      parseFiles([file])
+    }
+  } catch (error) {
+    console.error('Error taking picture:', error)
+    if (error.message !== 'User cancelled photos app') {
+      $q.notify({ message: t('dialogView.errors.cameraError'), color: 'negative' })
+    }
+  }
 }
 function onPaste(ev: ClipboardEvent) {
   const { clipboardData } = ev
