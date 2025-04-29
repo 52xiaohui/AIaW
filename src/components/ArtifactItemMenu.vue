@@ -82,7 +82,6 @@ async function downloadItem({ name, versions, currIndex }) {
   try {
     const content = versions[currIndex].text
     const result = await saveFile(name, content)
-    
     if (result.success) {
       if (result.path) {
         $q.notify({

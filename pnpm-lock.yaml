@@ -50,6 +50,9 @@ importers:
       '@capacitor/app':
         specifier: ^7.0.0
         version: 7.0.0(@capacitor/core@7.0.1)
+      '@capacitor/camera':
+        specifier: ^7.0.1
+        version: 7.0.1(@capacitor/core@7.0.1)
       '@capacitor/clipboard':
         specifier: ^7.0.0
         version: 7.0.0(@capacitor/core@7.0.1)
@@ -1245,6 +1248,11 @@ packages:
 
   '@capacitor/app@7.0.0':
     resolution: {integrity: sha512-/UFwfPFsw/Jen6vjrV0lfTBOQWSaDDdmrYXKpYg4Xn8hwj0xrrRPXxC43j7VmPoj9AFMVPA+hx94ygqjChPASQ==}
+    peerDependencies:
+      '@capacitor/core': '>=7.0.0'
+
+  '@capacitor/camera@7.0.1':
+    resolution: {integrity: sha512-gDUFsYlhMra5VVOa4iJV6+MQRhp3VXpTLQY4JDATj7UvoZ8Hv4DG8qplPL9ufUFNoR3QbDDnf8+gbQOsKdkDjg==}
     peerDependencies:
       '@capacitor/core': '>=7.0.0'
 
@@ -8237,6 +8245,10 @@ snapshots:
       '@capacitor/core': 7.0.1
 
   '@capacitor/app@7.0.0(@capacitor/core@7.0.1)':
+    dependencies:
+      '@capacitor/core': 7.0.1
+
+  '@capacitor/camera@7.0.1(@capacitor/core@7.0.1)':
     dependencies:
       '@capacitor/core': 7.0.1
 

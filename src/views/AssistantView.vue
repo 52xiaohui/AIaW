@@ -482,7 +482,6 @@ import { useSetTitle } from 'src/composables/set-title'
 import { db } from 'src/utils/db'
 import EnablePluginsItems from 'src/components/EnablePluginsItems.vue'
 import { saveFile } from 'src/utils/file-saver'
-import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   id: string

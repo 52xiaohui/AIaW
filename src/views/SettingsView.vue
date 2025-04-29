@@ -586,7 +586,7 @@ async function exportData() {
     } else {
       console.error('保存用户数据失败:', result.error)
       $q.notify({
-        message: result.error === '没有存储权限' 
+        message: result.error === '没有存储权限'
           ? '请授予应用存储权限以保存数据'
           : t('settingsView.exportFailed') + (result.error ? `: ${result.error}` : ''),
         color: 'negative'
