@@ -233,7 +233,7 @@
         </div>
         <div
           flex
-          flex-wrap
+          flex-nowrap
           justify-end
           text-sec
           items-center
@@ -338,10 +338,10 @@
             my-2
             ml-2
           >
-            <q-icon
+            <!-- <q-icon
               name="sym_o_generating_tokens"
               size="24px"
-            />
+            /> -->
             <code
               bg-sur-c-high
               px-2
@@ -354,13 +354,15 @@
           </div>
           <abortable-btn
             icon="sym_o_send"
-            :label="$t('dialogView.send')"
+            label=""
             @click="send"
             @abort="abortController?.abort()"
             :loading="!!messageMap[chain.at(-2)]?.generatingSession"
             ml-4
             min-h="40px"
-          />
+          >
+            <q-tooltip>{{ $t('dialogView.send') }}</q-tooltip>
+          </abortable-btn>
         </div>
         <div
           flex

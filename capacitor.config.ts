@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'AIaW',
   webDir: 'dist/spa',
   server: {
-    url: 'http://192.168.0.100:9005', // 替换为你的本地IP
+    url: 'http://192.168.1.23:9005', // 替换为你的本地IP
     cleartext: true
   },
   plugins: {
