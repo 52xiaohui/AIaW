@@ -78,31 +78,8 @@ function moveItem({ id }) {
     db.artifacts.update(id, { workspaceId })
   })
 }
-async function downloadItem({ name, versions, currIndex }) {
-  try {
-    const content = versions[currIndex].text
-    const result = await saveFile(name, content)
-    if (result.success) {
-      if (result.path) {
-        $q.notify({
-          message: `文件已保存到: ${result.path}`,
-          color: 'positive'
-        })
-      }
-    } else {
-      console.error('保存文件失败:', result.error)
-      $q.notify({
-        message: `保存文件失败: ${result.error}`,
-        color: 'negative'
-      })
-    }
-  } catch (error) {
-    console.error('保存文件过程出错:', error)
-    $q.notify({
-      message: '保存文件过程出错',
-      color: 'negative'
-    })
-  }
+function downloadItem({ name, versions, currIndex }) {
+  exportFile(name, versions[currIndex].text)
 }
 function deleteItem({ id, name }) {
   $q.dialog({

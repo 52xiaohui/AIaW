@@ -359,7 +359,9 @@
             @abort="abortController?.abort()"
             :loading="!!messageMap[chain.at(-2)]?.generatingSession"
             ml-4
-            min-h="40px"
+            min-h="32px"
+            min-w="32px"
+            dense
           >
             <q-tooltip>{{ $t('dialogView.send') }}</q-tooltip>
           </abortable-btn>
@@ -448,6 +450,7 @@ import { useCreateDialog } from 'src/composables/create-dialog'
 import EnablePluginsMenu from 'src/components/EnablePluginsMenu.vue'
 import { useGetModel } from 'src/composables/get-model'
 import { useUiStateStore } from 'src/stores/ui-state'
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
 
 const { t, locale } = useI18n()
 

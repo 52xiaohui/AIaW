@@ -497,7 +497,6 @@ const assistant = syncRef<Assistant>(
 )
 
 const $q = useQuasar()
-
 function pickAvatar() {
   $q.dialog({
     component: PickAvatarDialog,
@@ -525,35 +524,9 @@ async function exportAssistant(target: 'file' | 'clipboard') {
   const { name, prompt, promptVars, promptTemplate, model, modelSettings, author, homepage, description } = assistant.value
   const json = JSON.stringify({ name, avatar, prompt, promptVars, promptTemplate, model, modelSettings, author, homepage, description })
   if (target === 'file') {
-    try {
-      const result = await saveFile(`${name}.json`, json)
-      if (result.success) {
-        if (result.path) {
-          $q.notify({
-            message: `助手配置已保存到: ${result.path}`,
-            color: 'positive'
-          })
-        }
-      } else {
-        console.error('保存助手配置失败:', result.error)
-        $q.notify({
-          message: `保存失败: ${result.error}`,
-          color: 'negative'
-        })
-      }
-    } catch (error) {
-      console.error('保存助手配置过程出错:', error)
-      $q.notify({
-        message: '保存过程出错',
-        color: 'negative'
-      })
-    }
+    exportFile(`${name}.json`, json)
   } else {
     copyToClipboard(json)
-    $q.notify({
-      message: '已复制到剪贴板',
-      color: 'positive'
-    })
   }
 }
 </script>
