@@ -44,7 +44,7 @@ import { Artifact } from 'src/utils/types'
 import { db } from 'src/utils/db'
 import { artifactUnsaved, saveArtifactChanges } from 'src/utils/functions'
 import { useI18n } from 'vue-i18n'
-import { saveFile } from 'src/utils/file-saver'
+import { exportFile } from 'src/utils/platform-api'
 
 const $q = useQuasar()
 const { t } = useI18n()

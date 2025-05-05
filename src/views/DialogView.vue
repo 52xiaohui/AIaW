@@ -319,9 +319,9 @@
             v-if="assistant"
             flat
             :round="!activePlugins.length"
+            :class="{ 'px-2': activePlugins.length }"
             min-w="2.7em"
             min-h="2.7em"
-            px-2
             icon="sym_o_extension"
             :title="$t('dialogView.plugins')"
           >
@@ -447,7 +447,8 @@ import Mark from 'mark.js'
 import { useCreateDialog } from 'src/composables/create-dialog'
 import EnablePluginsMenu from 'src/components/EnablePluginsMenu.vue'
 import { useGetModel } from 'src/composables/get-model'
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
+import { useUiStateStore } from 'src/stores/ui-state'
+
 const { t, locale } = useI18n()
 
 const props = defineProps<{
@@ -1196,6 +1197,7 @@ watch(route, to => {
         mark.mark(highlight)
       }
       item.querySelector('mark[data-markjs]')?.scrollIntoView()
+      router.replace({ query: {} })
     }
   })
 }, { immediate: true })
@@ -1399,7 +1401,8 @@ async function autoExtractArtifact() {
   })
 }
 
-const scrollTops: Record<string, number> = {}
+const uiStateStore = useUiStateStore()
+const scrollTops = uiStateStore.dialogScrollTops
 function onScroll(ev) {
   scrollTops[props.id] = ev.target.scrollTop
 }

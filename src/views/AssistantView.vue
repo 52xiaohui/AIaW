@@ -481,7 +481,7 @@ import { blobToBase64, pageFhStyle } from 'src/utils/functions'
 import { useSetTitle } from 'src/composables/set-title'
 import { db } from 'src/utils/db'
 import EnablePluginsItems from 'src/components/EnablePluginsItems.vue'
-import { saveFile } from 'src/utils/file-saver'
+import { exportFile } from 'src/utils/platform-api'
 
 const props = defineProps<{
   id: string

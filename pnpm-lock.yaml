@@ -137,6 +137,9 @@ importers:
       ai:
         specifier: ^4.3.10
         version: 4.3.10(react@18.3.1)(zod@3.24.1)
+      capacitor-export-file:
+        specifier: ^0.0.1
+        version: 0.0.1(@capacitor/core@7.0.1)
       capacitor-stream-fetch:
         specifier: ^0.0.5
         version: 0.0.5(@capacitor/core@7.0.1)
@@ -3578,6 +3581,11 @@ packages:
 
   caniuse-lite@1.0.30001697:
     resolution: {integrity: sha512-GwNPlWJin8E+d7Gxq96jxM6w0w+VFeyyXRsjU58emtkYqnbwHqXm5uT2uCmO0RQE9htWknOP4xtBlLmM/gWxvQ==}
+
+  capacitor-export-file@0.0.1:
+    resolution: {integrity: sha512-F8Jsu9o9JmfQejoezh2AErVtVO4uB+I35VaQs3VTtSIbz6ZFOCkjJsVIJOgHZwx7xlCCJEt1ox+5KDm02woodg==}
+    peerDependencies:
+      '@capacitor/core': '>=7.0.0'
 
   capacitor-stream-fetch@0.0.5:
     resolution: {integrity: sha512-+mK+TdCXLHHoyYYsoBeq8hrhQ71C/4O0hJRbyg2VbQvj65XmGbaUNL791x9F8FDKwe9aDvYbmFYvbDThQ7Jq2g==}
@@ -11016,6 +11024,10 @@ snapshots:
   camelcase@5.3.1: {}
 
   caniuse-lite@1.0.30001697: {}
+
+  capacitor-export-file@0.0.1(@capacitor/core@7.0.1):
+    dependencies:
+      '@capacitor/core': 7.0.1
 
   capacitor-stream-fetch@0.0.5(@capacitor/core@7.0.1):
     dependencies:
